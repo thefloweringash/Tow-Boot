@@ -11,6 +11,7 @@ let
   cfg = config.hardware.socs;
   allwinnerSOCs = [
     "allwinner-a64"
+    "allwinner-a83t"
     "allwinner-h3"
     "allwinner-h5"
   ];
@@ -25,6 +26,12 @@ in
         type = types.bool;
         default = false;
         description = "Enable when SoC is Allwinner A64";
+        internal = true;
+      };
+      allwinner-a83t.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable when SoC is Allwinner A83T";
         internal = true;
       };
       allwinner-h3.enable = mkOption {
@@ -93,6 +100,9 @@ in
     })
     (mkIf cfg.allwinner-a64.enable {
       system.system = "aarch64-linux";
+    })
+    (mkIf cfg.allwinner-a83t.enable {
+      system.system = "armv7l-linux";
     })
     (mkIf cfg.allwinner-h3.enable {
       system.system = "armv7l-linux";
