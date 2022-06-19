@@ -1,0 +1,27 @@
+From 2a46506c3ef90219279953b1b44cf5b520c3c89a Mon Sep 17 00:00:00 2001
+From: Andrew Childs <lorne@cons.org.nz>
+Date: Sun, 19 Jun 2022 16:01:19 +0900
+Subject: [PATCH] mmc: sunxi: prevent `new_mode` setup being clobbered
+
+---
+ drivers/mmc/sunxi_mmc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
+index 1bb7b6d0e9..95a87fbf9f 100644
+--- a/drivers/mmc/sunxi_mmc.c
++++ b/drivers/mmc/sunxi_mmc.c
+@@ -187,9 +187,7 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
+ 	if (new_mode) {
+ 		val |= CCM_MMC_CTRL_MODE_SEL_NEW;
+ 		setbits_le32(&priv->reg->ntsr, SUNXI_MMC_NTSR_MODE_SEL_NEW);
+-	}
+-
+-	if (!sunxi_mmc_can_calibrate()) {
++	} else if (!sunxi_mmc_can_calibrate()) {
+ 		/*
+ 		 * Use hardcoded delay values if controller doesn't support
+ 		 * calibration
+-- 
+2.36.1
+

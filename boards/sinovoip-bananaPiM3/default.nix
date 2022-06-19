@@ -14,5 +14,8 @@
 
   Tow-Boot = {
     defconfig = "Sinovoip_BPI_M3_defconfig";
+    patches = [
+      ./0001-mmc-sunxi-prevent-new_mode-setup-being-clobbered.patch
+    ];
   };
 }
